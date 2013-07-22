@@ -35,7 +35,7 @@
 			width: '100%',
 			height: 'auto',
 			autoOpen : true,
-			autoArrange: 'horizontal',
+			stack: 'horizontal',
 			container: 'window'
 		};
 		var dimensions = {};		
@@ -50,7 +50,7 @@
 			options.maxWidth = dimensions.width - 10;
 			options.maxHeight = dimensions.height;
 			options.width = dimensions.width -10;
-			options.position = [containerPos.left + 10, containerPos.top + 10];
+			// options.position = [containerPos.left + 10, containerPos.top + 10];
 
 			// if (options.autoArrange == 'horizontal'){
 
@@ -61,16 +61,30 @@
 		        containment: options.container,
 		        opacity: 0.70
 		    });
-			$.each($('.jqWindow'),function(i,v){		
+			$.each($('.jqWindow'),function(i,v){
+			console.log(i)		;
 				var numWindows = $('.jqWindow').length;
-				var containerDim = {width: $(options.container).outerWidth(), height: $(options.container).outerHeight()};
+				var windowDim = {};
+				var windowPos = [];
+
+				if (options.stack == 'horizontal'){
+					windowDim = {width:$(options.container).outerWidth(),height: ($(options.container).outerHeight()/numWindows)};
+					// new_window.parent().outerHeight(windowDim.height);
+					new_window.dialog('option','height',(windowDim.height - new_window.prev().outerHeight()));
+					if (i == 0){
+						windowPos = [0,0];
+					}
+
+					new_window.dialog('option','position',windowPos);
+
+				}
+				// var containerDim = {width: $(options.container).outerWidth(), height: $(options.container).outerHeight()};
 
 				// options.position = [containerPos.left + 10,containerPos.top + (containerDim.height / numWindows)];
 
 				// options.width = containerDim.width / numWindows;
 				// options.height = (containerDim.height + $(this).parent().height()) / numWindows;
-				$(this).parent().height(containerDim.height / numWindows);
-
+				//$(this).parent().height(containerDim.height / numWindows);
 
 
 
